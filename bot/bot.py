@@ -1,4 +1,5 @@
 from helper import *
+from helper.Astar import aStar
 import sys
 
 class Bot:
@@ -30,7 +31,6 @@ class Bot:
         neighbors = [(1,0), (-1, 0), (0,1), (0,-1)]
         target = (targets[0][0].Position.x, targets[0][0].Position.y)
         dists = []
-#        current_dist = self.manhattanDistance(self.PlayerInfo, target)
         dictMap = {}
         for line in gameMap.tiles:
             for tile in line:
@@ -44,14 +44,15 @@ class Bot:
         TileContent.Resource : 1,
         TileContent.Player : -1
         }
-        print(dir(aStar), file=sys.stderr)
-        nextMove = Astar.aStar(dictMap, current_pos, target, weightDict)
+        current_dist = self.manhattanDistancePoint(self.PlayerInfo.Position, (target[0],target[1]))
+#        print(dir(aStar), file=sys.stderr)
+        nextMove = aStar(dictMap, current_pos, target, weightDict)
 #        for neighbor in neighbors:
 #            dists.append()
 #        for resource in targets[0]:
 #            print(resource, self.manhattanDistance(resource, self.PlayerInfo), file=sys.stderr)
 #        resource1 = targets[0][0]
-        return create_move_action(Point(nextMove))
+        return create_move_action(Point(nextMove[0], nextMove[1]))
 
     def after_turn(self):
         """
@@ -96,5 +97,8 @@ class Bot:
                     continue
         return [resources, enemies, shops]
 
-    def manhattanDistance(self, point_init, tile_dest):
+    def manhattanDistance(self, tile_init, tile_dest):
         return abs(tile_dest.Position.x - tile_init.Position.x) + abs(tile_dest.Position.y - tile_init.Position.y)
+
+    def manhattanDistancePoint(self, point_init, point_dest):
+        return abs(point_init.x - point_dest.y) + abs(point_init.x - point.dest.y)
