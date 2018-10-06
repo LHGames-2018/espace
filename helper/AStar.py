@@ -49,8 +49,8 @@ def aStar(maze, start, goal, canWalkOnResources=False, canWalkOnEnemies=False, c
     if canWalkOnEnemies:
         weightSymbols[tile.TileContent.Player] = 1
 
-    if not canWalkOnHouses:
-        weightSymbols[tile.TileContent.House] = -1
+#    if not canWalkOnHouses:
+#        weightSymbols[tile.TileContent.House] = -1
     heapq.heappush(openlist, Node(start, 0, heuristic(start, goal)))
 
     while len(openlist) != 0:
