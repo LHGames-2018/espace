@@ -3,6 +3,7 @@ import sys
 
 class Bot:
     def __init__(self):
+        self.local = True
         pass
 
     def before_turn(self, playerInfo):
@@ -23,7 +24,9 @@ class Bot:
             #print('',file=sys.stderr)
 #        print(str(gameMap.tiles),  file=sys.stderr)
         # Write your bot here. Use functions from aiHelper to instantiate your actions.
-        self.visual(gameMap)
+        if self.local:
+            self.visual(gameMap)
+        print(self.findTargets(gameMap, self.PlayerInfo), file=sys.stderr)
         return create_move_action(Point(-1, 0))
 
     def after_turn(self):
@@ -44,9 +47,25 @@ class Bot:
                 t = t.replace('TileContent.Lava', 'X')
                 t = t.replace('TileContent.Resource', '*')
                 t = t.replace('TileContent.Player', '1')
-                print("t:",t, file=sys.stderr)
+                #print("t:",t, file=sys.stderr)
                 visualline.append(t)
             toprint.append(visualline)
         toprint = [*zip(*toprint)]
         for vline in toprint:
             print(''.join(vline),file=sys.stderr)
+
+    def findTargets(self, mapmatrix, me):
+        resources = []
+        enemies = []
+        shops = []
+        for row in mapmatrix.tiles:
+            for tile in row:
+                if tile.TileContent==TileContent.Resource:
+                    resources.append(tile)
+                elif tile.TileContent==TileContent.Player and tile.Position != self.PlayerInfo.Position:
+                    enemies.append(tile)
+                elif tile.TileContent==TileContent.Shop:
+                    shops.append(tile)
+                else:
+                    continue
+        return [resources, enemies, shops]
