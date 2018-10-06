@@ -52,7 +52,7 @@ class Bot:
             for tile in line:
                 t = str(tile.TileContent)
                 t = t.replace('TileContent.Player', '1')
-                t = t.replace('TileContent.Empty', ' ')
+                t = t.replace('TileContent.Empty', '_')
                 t = t.replace('TileContent.Wall', '#')
                 t = t.replace('TileContent.House', '^')
                 t = t.replace('TileContent.Lava', 'X')
