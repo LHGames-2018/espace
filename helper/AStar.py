@@ -32,7 +32,7 @@ def aStar(maze, start, goal):
 
     weightSymbols = {
         tile.TileContent.Empty : 1,
-        tile.TileContent.Wall : -1,
+        tile.TileContent.Wall : 2,
         tile.TileContent.House : 1,
         tile.TileContent.Lava : -1,
         tile.TileContent.Resource : 1,

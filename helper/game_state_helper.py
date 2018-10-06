@@ -27,7 +27,11 @@ def get_closest_resource(game_state):
     paths = [a_star(game_state['parsedGameMap'], my_pos.to_tuple(), res.to_tuple()) for res in resources]
     paths = list(filter(lambda x: x != None, paths))
     paths.sort()
-    return paths[0]
+
+    if len(paths) >= 1:
+        return paths[0]
+    else:
+        return -1, Point(-1, 0)
 
 def get_home(game_state):
     poids, next_move = a_star(game_state['parsedGameMap'], get_my_position(game_state).to_tuple(), game_state['PlayerInfo'].HouseLocation.to_tuple())

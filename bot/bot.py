@@ -23,7 +23,6 @@ class Bot:
         """
 
         parsedGameMap = self.parseMap(gameMap)
-        
         action = None
         while not action:
             action = self.state_machine.run({'PlayerInfo': self.PlayerInfo, 'gameMap': gameMap, 'parsedGameMap': parsedGameMap, 'visiblePlayers': visiblePlayers})

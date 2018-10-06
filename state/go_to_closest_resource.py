@@ -13,10 +13,11 @@ class GetToClosestResource(BaseState):
         
         # find closest resource
         poids, next_move = game_state_helper.get_closest_resource(game_state)
-
         next_move = Point.from_tuple(next_move)
 
-        action = create_move_action(next_move)
+        tile_content = game_state['parsedGameMap'][(my_pos + next_move).to_tuple()]
+
+        action = create_move_action(tile_content, next_move)
 
         if poids == 1: # if we're on top of the resource
             return state.GatherResourcesState(), None
