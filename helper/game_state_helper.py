@@ -48,7 +48,7 @@ def get_closest_enemy(game_state):
     enemies = get_enemies(game_state)
 
     # finds the position of the closest resource
-    paths = [a_star(game_state['parsedGameMap'], my_pos, res, False, True) for res in enemies]
+    paths = [a_star(game_state['parsedGameMap'], my_pos, res, False, True, False) for res in enemies]
     paths = list(filter(lambda x: x != None, paths))
     paths.sort()
 
