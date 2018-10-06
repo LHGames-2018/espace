@@ -15,6 +15,12 @@ class Node:
 
 maze = [''.join(x.strip().split(',')) for x in open('maze')]
 
+newMaze = {}
+
+for y in range(len(maze)):
+    for x in range(len(maze[y])):
+        newMaze[(x,y)] = maze[y][x]
+
 visited = []
 
 def heuristic(current, goal):
@@ -37,21 +43,9 @@ def aStar(maze, start, goal, weightSymbols):
 
         if currentNode.point == goal:
             point = goal
-            points = []
             while cameFrom[point] != start:
-                points.append(point)
-                print (point)
                 point = cameFrom[point]
-             
-            points.append(point)
  
-            for p in points[::-1]:
-                s = list(maze[p[1]])
-                s[p[0]] = '#'
-                maze[p[1]] = ''.join(s)
- 
-            print ('\n'.join(maze))
-            
             return [x-y for x,y in zip(point, cameFrom[point])]
             
 
@@ -60,12 +54,10 @@ def aStar(maze, start, goal, weightSymbols):
         for m in possibleMoves:
             newPoint = tuple([x+y for x,y in zip(currentNode.point, m)])
 
-            x, y = newPoint
-
-            if newPoint in closedlist or y < 0 or x < 0 or y >= len(maze) or x >= len(maze[y]):
+            if newPoint in closedlist or newPoint not in maze:
                 continue
 
-            symbolWeight = weightSymbols[maze[y][x]]
+            symbolWeight = weightSymbols[maze[newPoint]]
 
             if symbolWeight == -1:
                 continue
@@ -94,7 +86,7 @@ def findPoint(character):
 start = findPoint('S')
 end = findPoint('E')
 
-move = aStar(maze, start, end, {'S': 1, 'E':1, '+':-1, ' ':1})
+move = aStar(newMaze, start, end, {'S': 1, 'E':1, '+':-1, ' ':1})
 
 print (move)
 
