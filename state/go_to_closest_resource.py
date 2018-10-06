@@ -1,0 +1,22 @@
+from state.machine import BaseState
+import state
+from helper import *
+
+class GetToClosestResource(BaseState):
+
+    def action(self, game_state):
+
+        if get_current_hp_count() <= 5:
+            return state.GoHomeState(), None
+
+        my_pos = game_state_helper.get_my_position(game_state)
+        
+        # find closest resource
+        poids, next_move = game_state_helper.get_closest_resource(game_state)
+
+        action = create_move_action(next_move)
+
+        if poids == 1: # if we're on top of the resource
+            return state.GatherResourcesState(), None
+        else:
+            return None, action
