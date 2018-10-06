@@ -2,6 +2,7 @@ import json
 from flask import Flask, request
 from helper import GameMap, Player, Point
 from bot import Bot
+import sys
 
 app = Flask(__name__)
 
@@ -38,7 +39,6 @@ def response():
     bot.before_turn(player)
     action = bot.execute_turn(gameInfo['GameMap'], gameInfo['OtherPlayers'])
     bot.after_turn()
-    print(action)
     return action
 
 
