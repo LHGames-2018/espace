@@ -39,7 +39,8 @@ def aStar(maze, start, goal, canWalkOnResources=False):
         tile.TileContent.House : 1,
         tile.TileContent.Lava : -1,
         tile.TileContent.Resource : -1,
-        tile.TileContent.Player : -1
+        tile.TileContent.Player : -1,
+        tile.TileContent.Shop : -1
     }
 
     if canWalkOnResources:
@@ -55,11 +56,11 @@ def aStar(maze, start, goal, canWalkOnResources=False):
             point = goal
             while cameFrom[point] != start:
                 point = cameFrom[point]
- 
+
             delta = tuple([x-y for x,y in zip(point, cameFrom[point])])
-            
+
             return (currentNode.gscore, Point(delta[0], delta[1]))
-            
+
 
         closedlist.append(currentNode.point)
 
@@ -109,7 +110,7 @@ if __name__ == '__main__':
 
     start = findPoint('S')
     end = findPoint('E')
-    
+
     move = aStar(newMaze, start, end, {'S': 1, 'E':1, '+':-1, ' ':1})
 
     print (move)
