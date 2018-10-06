@@ -1,5 +1,5 @@
 from helper import *
-
+import sys
 
 class Bot:
     def __init__(self):
@@ -18,12 +18,35 @@ class Bot:
             :param gameMap: The gamemap.
             :param visiblePlayers:  The list of visible players.
         """
+#        print(len(gameMap.tiles),file=sys.stderr)
 
+            #print('',file=sys.stderr)
+#        print(str(gameMap.tiles),  file=sys.stderr)
         # Write your bot here. Use functions from aiHelper to instantiate your actions.
-        return create_move_action(Point(1, 0))
+        self.visual(gameMap)
+        return create_move_action(Point(-1, 0))
 
     def after_turn(self):
         """
         Gets called after executeTurn
         """
         pass
+
+    def visual(self, gameMap):
+        toprint = []
+        for line in gameMap.tiles:
+            visualline = []
+            for tile in line:
+                t = str(tile.TileContent)
+                t = t.replace('TileContent.Empty', ' ')
+                t = t.replace('TileContent.Wall', '#')
+                t = t.replace('TileContent.House', '^')
+                t = t.replace('TileContent.Lava', 'X')
+                t = t.replace('TileContent.Resource', '*')
+                t = t.replace('TileContent.Player', '1')
+                print("t:",t, file=sys.stderr)
+                visualline.append(t)
+            toprint.append(visualline)
+        toprint = [*zip(*toprint)]
+        for vline in toprint:
+            print(''.join(vline),file=sys.stderr)
