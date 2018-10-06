@@ -62,7 +62,7 @@ class Bot:
                 return create_move_action(nextMove)
         else:
             print("Mining fini", file=sys.stderr)
-            nextMoves = aStar(dictMap, current_pos, self.PlayerInfo.HouseLocation, weightDict)
+            nextMoves = aStar(dictMap, current_pos, (self.PlayerInfo.HouseLocation.x, self.PlayerInfo.HouseLocation.y), weightDict)
             nextMove = nextMoves[0]
             print("next",nextMove, file=sys.stderr)
             nextMove = Point(nextMove.x - self.PlayerInfo.Position.x, nextMove.y - self.PlayerInfo.Position.y)
