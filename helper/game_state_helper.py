@@ -34,7 +34,7 @@ def get_closest_resource(game_state):
     resources = get_resources(game_state)
 
     # finds the position of the closest resource
-    paths = [a_star(game_state['parsedGameMap'], my_pos.to_tuple(), res.to_tuple(), canWalkOnResources=True) for res in resources]
+    paths = [a_star(game_state['parsedGameMap'], my_pos, res, canWalkOnResources=True) for res in resources]
     paths = list(filter(lambda x: x != None, paths))
     paths.sort()
 
@@ -48,7 +48,7 @@ def get_closest_enemy(game_state):
     enemies = get_enemies(game_state)
 
     # finds the position of the closest resource
-    paths = [a_star(game_state['parsedGameMap'], my_pos.to_tuple(), res.to_tuple()) for res in enemies]
+    paths = [a_star(game_state['parsedGameMap'], my_pos, res) for res in enemies]
     paths = list(filter(lambda x: x != None, paths))
     paths.sort()
 
@@ -58,7 +58,7 @@ def get_closest_enemy(game_state):
         return -1, Point(-1, 0)
 
 def get_home(game_state):
-    poids, next_move = a_star(game_state['parsedGameMap'], get_my_position(game_state).to_tuple(), game_state['PlayerInfo'].HouseLocation.to_tuple())
+    poids, next_move = a_star(game_state['parsedGameMap'], get_my_position(game_state), game_state['PlayerInfo'].HouseLocation)
     return poids, next_move
 
 def get_neighbours(game_state):

@@ -57,8 +57,8 @@ def aStar(maze, start, goal, canWalkOnResources=False):
                 point = cameFrom[point]
  
             delta = tuple([x-y for x,y in zip(point, cameFrom[point])])
-
-            return (currentNode.gscore, Point(delta))
+            
+            return (currentNode.gscore, Point(delta[0], delta[1]))
             
 
         closedlist.append(currentNode.point)
