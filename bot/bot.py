@@ -26,10 +26,14 @@ class Bot:
 #        print(str(gameMap.tiles),  file=sys.stderr)
         # Write your bot here. Use functions from aiHelper to instantiate your actions.
         if self.local:
+            print("Score:",self.PlayerInfo.Score, file=sys.stderr)
             self.visual(gameMap)
-        targets = self.findTargets(gameMap, self.PlayerInfo)
+
+        unsorted_resources = self.findTargets(gameMap, self.PlayerInfo)[0]
+        targets = sorted(unsorted_resources, key = lambda z:self.manhattanDistancePoint(self.PlayerInfo.Position, z.Position))
+        #print("next",, file=sys.stderr)
         neighbors = [(1,0), (-1, 0), (0,1), (0,-1)]
-        target = (targets[0][0].Position.x, targets[0][0].Position.y)
+        target = (targets[0].Position.x, targets[0].Position.y)
         dists = []
         dictMap = {}
         for line in gameMap.tiles:
@@ -44,15 +48,35 @@ class Bot:
         TileContent.Resource : 1,
         TileContent.Player : -1
         }
-        current_dist = self.manhattanDistancePoint(self.PlayerInfo.Position, (target[0],target[1]))
+        print("target:",target, file=sys.stderr)
+        nextMoves = aStar(dictMap, current_pos, target, weightDict)
+        nextMove = nextMoves[0]
+        nextMove = Point(nextMove.x - self.PlayerInfo.Position.x, nextMove.y - self.PlayerInfo.Position.y)
+        print("next:",nextMove, file=sys.stderr)
+        current_dist = self.manhattanDistancePoint(self.PlayerInfo.Position, Point(target[0],target[1]))
+        print("dist:",current_dist, file=sys.stderr)
+        if self.PlayerInfo.CarryingCapacity > self.PlayerInfo.CarriedResources:
+            if current_dist == 1:
+                return create_collect_action(nextMove)
+            else:
+                return create_move_action(nextMove)
+        else:
+            print("Mining fini", file=sys.stderr)
+            nextMoves = aStar(dictMap, current_pos, self.PlayerInfo.HouseLocation, weightDict)
+            nextMove = nextMoves[0]
+            print("next",nextMove, file=sys.stderr)
+            nextMove = Point(nextMove.x - self.PlayerInfo.Position.x, nextMove.y - self.PlayerInfo.Position.y)
+            return create_move_action(nextMove)
 #        print(dir(aStar), file=sys.stderr)
-        nextMove = aStar(dictMap, current_pos, target, weightDict)
+
+
 #        for neighbor in neighbors:
 #            dists.append()
 #        for resource in targets[0]:
 #            print(resource, self.manhattanDistance(resource, self.PlayerInfo), file=sys.stderr)
 #        resource1 = targets[0][0]
-        return create_move_action(Point(nextMove[0], nextMove[1]))
+#        print(str(nextMove), file=sys.stderr)
+        return create_move_action(nextMove)
 
     def after_turn(self):
         """
@@ -67,12 +91,12 @@ class Bot:
             visualline = []
             for tile in line:
                 t = str(tile.TileContent)
+                t = t.replace('TileContent.Player', '1')
                 t = t.replace('TileContent.Empty', ' ')
                 t = t.replace('TileContent.Wall', '#')
                 t = t.replace('TileContent.House', '^')
                 t = t.replace('TileContent.Lava', 'X')
                 t = t.replace('TileContent.Resource', '*')
-                t = t.replace('TileContent.Player', '1')
                 #print("t:",t, file=sys.stderr)
                 visualline.append(t)
             toprint.append(visualline)
@@ -101,4 +125,4 @@ class Bot:
         return abs(tile_dest.Position.x - tile_init.Position.x) + abs(tile_dest.Position.y - tile_init.Position.y)
 
     def manhattanDistancePoint(self, point_init, point_dest):
-        return abs(point_init.x - point_dest.y) + abs(point_init.x - point.dest.y)
+        return abs(point_init.x - point_dest.x) + abs(point_init.y - point_dest.y)
