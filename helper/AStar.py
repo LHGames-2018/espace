@@ -45,7 +45,7 @@ def aStar(maze, start, goal):
             while cameFrom[point] != start:
                 point = cameFrom[point]
  
-            return [x-y for x,y in zip(point, cameFrom[point])]
+            return (currentNode.gscore, tuple([x-y for x,y in zip(point, cameFrom[point])]))
             
 
         closedlist.append(currentNode.point)
@@ -61,7 +61,7 @@ def aStar(maze, start, goal):
             if symbolWeight == -1:
                 continue
 
-            newNode = Node(newPoint, currentNode.weight + symbolWeight, heuristic(newPoint, goal))
+            newNode = Node(newPoint, currentNode.gscore + symbolWeight, heuristic(newPoint, goal))
 
             if sum(1 for x in openlist if x.point == newPoint) == 0:
                 heapq.heappush(openlist, newNode)
