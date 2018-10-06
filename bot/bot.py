@@ -26,8 +26,32 @@ class Bot:
         # Write your bot here. Use functions from aiHelper to instantiate your actions.
         if self.local:
             self.visual(gameMap)
-        print(self.findTargets(gameMap, self.PlayerInfo), file=sys.stderr)
-        return create_move_action(Point(-1, 0))
+        targets = self.findTargets(gameMap, self.PlayerInfo)
+        neighbors = [(1,0), (-1, 0), (0,1), (0,-1)]
+        target = (targets[0][0].Position.x, targets[0][0].Position.y)
+        dists = []
+#        current_dist = self.manhattanDistance(self.PlayerInfo, target)
+        dictMap = {}
+        for line in gameMap.tiles:
+            for tile in line:
+                dictMap[(tile.Position.x, tile.Position.y)] = tile.TileContent
+        current_pos = (self.PlayerInfo.Position.x, self.PlayerInfo.Position.y)
+        weightDict = {
+        TileContent.Empty : 1,
+        TileContent.Wall : -1,
+        TileContent.House : 1,
+        TileContent.Lava : -1,
+        TileContent.Resource : 1,
+        TileContent.Player : -1
+        }
+        print(dir(aStar), file=sys.stderr)
+        nextMove = Astar.aStar(dictMap, current_pos, target, weightDict)
+#        for neighbor in neighbors:
+#            dists.append()
+#        for resource in targets[0]:
+#            print(resource, self.manhattanDistance(resource, self.PlayerInfo), file=sys.stderr)
+#        resource1 = targets[0][0]
+        return create_move_action(Point(nextMove))
 
     def after_turn(self):
         """
@@ -71,3 +95,6 @@ class Bot:
                 else:
                     continue
         return [resources, enemies, shops]
+
+    def manhattanDistance(self, point_init, tile_dest):
+        return abs(tile_dest.Position.x - tile_init.Position.x) + abs(tile_dest.Position.y - tile_init.Position.y)
