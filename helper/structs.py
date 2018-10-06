@@ -44,6 +44,9 @@ class Point(object):
         delta_y = p1.y - p2.y
         return math.sqrt(math.pow(delta_x, 2) + math.pow(delta_y, 2))
 
+    def to_tuple(self):
+        return (self.x, self.y)
+
 
 class GameInfo(object):
 

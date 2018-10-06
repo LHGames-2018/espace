@@ -17,13 +17,22 @@ def heuristic(current, goal):
     return sum(abs(x-y) for x,y in zip(goal, current))
 
 #weightSymbols is a dictionary of gscores ex: {'+':-1, ' ' : 1, } //-1 is an obstacle
-def aStar(maze, start, goal, weightSymbols):
+def aStar(maze, start, goal):
     possibleMoves = [(0,1), (-1,0), (1,0), (0,-1)]
 
     openlist = []
     closedlist = []
     cameFrom = {}
     gscores = {}
+
+    weightSymbols = {
+        TileContent.Empty : 1,
+        TileContent.Wall : -1,
+        TileContent.House : 1,
+        TileContent.Lava : -1,
+        TileContent.Resource : 1,
+        TileContent.Player : -1
+    }
 
 
     heapq.heappush(openlist, Node(start, 0, heuristic(start, goal)))

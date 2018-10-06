@@ -1,4 +1,5 @@
 from helper import *
+from Astar import aStar as a_star
 
 #game_state = { PlayerInfo, gameMap, parsedGameMap, visiblePlayers }
 
@@ -23,7 +24,7 @@ def get_closest_resource(game_state):
     resources = get_resources(game_state)
 
     # finds the position of the closest resource
-    paths = [a_star(res) for res in resources]
+    paths = [a_star(game_state.parsedGameMap, my_pos.to_tuple(), res.to_tuple()) for res in resources]
     paths.sort()
     return paths[0]
 

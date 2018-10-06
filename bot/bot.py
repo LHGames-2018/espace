@@ -1,6 +1,8 @@
 from helper import *
 from state.machine import StateMachine
 from state import *
+from helper.Astar import aStar
+import sys
 
 class Bot:
     def __init__(self):
@@ -20,15 +22,68 @@ class Bot:
             :param visiblePlayers:  The list of visible players.
         """
 
+        parsedGameMap = parseMap(gameMap)
+        
         action = None
         while not action:
-            action = self.state_machine.run({'PlayerInfo': self.PlayerInfo, 'gameMap': gameMap, 'visiblePlayers': visiblePlayers})
+            action = self.state_machine.run({'PlayerInfo': self.PlayerInfo, 'gameMap': gameMap, 'parsedGameMap': parsedGameMap, 'visiblePlayers': visiblePlayers})
 
         # Write your bot here. Use functions from aiHelper to instantiate your actions.
         return action
+
+    def parseMap(gameMap):
+        dictMap = {}
+        for line in gameMap.tiles:
+            for tile in line:
+                dictMap[(tile.Position.x, tile.Position.y)] = tile.TileContent
+        return dictMap
+
 
     def after_turn(self):
         """
         Gets called after executeTurn
         """
         pass
+
+    def visual(self, gameMap):
+        #prints map in cmdline on bot server
+        toprint = []
+        for line in gameMap.tiles:
+            visualline = []
+            for tile in line:
+                t = str(tile.TileContent)
+                t = t.replace('TileContent.Player', '1')
+                t = t.replace('TileContent.Empty', ' ')
+                t = t.replace('TileContent.Wall', '#')
+                t = t.replace('TileContent.House', '^')
+                t = t.replace('TileContent.Lava', 'X')
+                t = t.replace('TileContent.Resource', '*')
+                #print("t:",t, file=sys.stderr)
+                visualline.append(t)
+            toprint.append(visualline)
+        toprint = [*zip(*toprint)]
+        for vline in toprint:
+            print(''.join(vline),file=sys.stderr)
+
+    def findTargets(self, mapmatrix, me):
+        #returns points of interest
+        resources = []
+        enemies = []
+        shops = []
+        for row in mapmatrix.tiles:
+            for tile in row:
+                if tile.TileContent==TileContent.Resource:
+                    resources.append(tile)
+                elif tile.TileContent==TileContent.Player and tile.Position != self.PlayerInfo.Position:
+                    enemies.append(tile)
+                elif tile.TileContent==TileContent.Shop:
+                    shops.append(tile)
+                else:
+                    continue
+        return [resources, enemies, shops]
+
+    def manhattanDistance(self, tile_init, tile_dest):
+        return abs(tile_dest.Position.x - tile_init.Position.x) + abs(tile_dest.Position.y - tile_init.Position.y)
+
+    def manhattanDistancePoint(self, point_init, point_dest):
+        return abs(point_init.x - point_dest.x) + abs(point_init.y - point_dest.y)
