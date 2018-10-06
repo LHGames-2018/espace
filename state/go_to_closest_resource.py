@@ -6,13 +6,15 @@ class GetToClosestResource(BaseState):
 
     def action(self, game_state):
 
-        if get_current_hp_count() <= 5:
+        if game_state_helper.get_current_hp_count(game_state) <= 5:
             return state.GoHomeState(), None
 
         my_pos = game_state_helper.get_my_position(game_state)
         
         # find closest resource
         poids, next_move = game_state_helper.get_closest_resource(game_state)
+
+        next_move = Point.from_tuple(next_move)
 
         action = create_move_action(next_move)
 

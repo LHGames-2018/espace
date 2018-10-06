@@ -1,4 +1,5 @@
 import heapq
+from helper import *
 
 class Node:
     def __init__(self, point, gscore, fscore):
@@ -26,12 +27,12 @@ def aStar(maze, start, goal):
     gscores = {}
 
     weightSymbols = {
-        TileContent.Empty : 1,
-        TileContent.Wall : -1,
-        TileContent.House : 1,
-        TileContent.Lava : -1,
-        TileContent.Resource : 1,
-        TileContent.Player : -1
+        tile.TileContent.Empty : 1,
+        tile.TileContent.Wall : -1,
+        tile.TileContent.House : 1,
+        tile.TileContent.Lava : -1,
+        tile.TileContent.Resource : 1,
+        tile.TileContent.Player : -1
     }
 
 

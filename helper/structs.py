@@ -47,6 +47,10 @@ class Point(object):
     def to_tuple(self):
         return (self.x, self.y)
 
+    @classmethod
+    def from_tuple(cls, pt):
+        return cls(pt[0], pt[1])
+
 
 class GameInfo(object):
 

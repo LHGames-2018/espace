@@ -1,12 +1,11 @@
 from helper import *
 from state.machine import StateMachine
-from state import *
-from helper.Astar import aStar
+import state 
 import sys
 
 class Bot:
     def __init__(self):
-        self.state_machine = StateMachine(initial_state=GoRightState())
+        self.state_machine = StateMachine(initial_state=state.GetToClosestResource())
 
     def before_turn(self, playerInfo):
         """
@@ -14,6 +13,7 @@ class Bot:
             :param playerInfo: Your bot's current state.
         """
         self.PlayerInfo = playerInfo
+        print(playerInfo.json(), file=sys.stderr)
 
     def execute_turn(self, gameMap, visiblePlayers):
         """
@@ -22,7 +22,7 @@ class Bot:
             :param visiblePlayers:  The list of visible players.
         """
 
-        parsedGameMap = parseMap(gameMap)
+        parsedGameMap = self.parseMap(gameMap)
         
         action = None
         while not action:
@@ -31,7 +31,7 @@ class Bot:
         # Write your bot here. Use functions from aiHelper to instantiate your actions.
         return action
 
-    def parseMap(gameMap):
+    def parseMap(self, gameMap):
         dictMap = {}
         for line in gameMap.tiles:
             for tile in line:

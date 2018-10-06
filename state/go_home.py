@@ -11,6 +11,6 @@ class GoHomeState(BaseState):
         if poids == 0:
             return state.GatherResourcesState(), None
 
-        action = create_move_action(next_move)
+        action = create_move_action(Point.from_tuple(next_move))
 
         return None, action

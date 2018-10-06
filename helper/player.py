@@ -19,3 +19,21 @@ class Player:
 
     def getUpgradeLevel(self, type):
         return self.UpgradeLevels[type]
+
+    def json(self):
+        return {
+            'health': self.Health,
+            'maxHealth': self.MaxHealth,
+            'carriedResources': self.CarriedResources,
+            'carryingCapacity': self.CarryingCapacity,
+            'collectingSpeed': self.CollectingSpeed,
+            'totalResources': self.TotalResources,
+            'attackPower': self.AttackPower,
+            'defence': self.Defence,
+            'position': self.Position,
+            'houseLocation': self.HouseLocation,
+            'carriedItems': self.CarriedItems,
+            'score': self.Score,
+            'name' :self.Name,
+            'upgradeLevels': self.UpgradeLevels
+        }
