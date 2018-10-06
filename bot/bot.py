@@ -36,6 +36,7 @@ class Bot:
         pass
 
     def visual(self, gameMap):
+        #prints map in cmdline on bot server
         toprint = []
         for line in gameMap.tiles:
             visualline = []
@@ -55,6 +56,7 @@ class Bot:
             print(''.join(vline),file=sys.stderr)
 
     def findTargets(self, mapmatrix, me):
+        #returns points of interest
         resources = []
         enemies = []
         shops = []
