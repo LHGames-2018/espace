@@ -1,6 +1,6 @@
 from helper import *
 from state.machine import StateMachine
-import state 
+import state
 import sys
 
 class Bot:
@@ -21,7 +21,7 @@ class Bot:
             :param gameMap: The gamemap.
             :param visiblePlayers:  The list of visible players.
         """
-
+        self.visual(gameMap)
         parsedGameMap = self.parseMap(gameMap)
         action = None
         while not action:
