@@ -13,9 +13,7 @@ class Node:
     def __lt__(self, other):
         return self.weight < other.weight
 
-maze = [''.join(x.strip().split(',')) for x in open('maze')]
 
-visited = []
 
 def heuristic(current, goal):
     return sum(abs(x-y) for x,y in zip(goal, current))
@@ -91,15 +89,12 @@ def findPoint(character):
     return None
 
 
-start = findPoint('S')
-end = findPoint('E')
+if __name__ == '__main__':
 
-move = aStar(maze, start, end, {'S': 1, 'E':1, '+':-1, ' ':1})
+    maze = [''.join(x.strip().split(',')) for x in open('maze')]
+    start = findPoint('S')
+    end = findPoint('E')
 
-print (move)
+    move = aStar(maze, start, end, {'S': 1, 'E':1, '+':-1, ' ':1})
 
-
-
-
-
-
+    print (move)

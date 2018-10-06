@@ -1,5 +1,6 @@
 from helper import *
-from bot.state_machine import *
+from state.machine import StateMachine
+from state import GetResourcesState, GoHomeState
 
 class Bot:
     def __init__(self):

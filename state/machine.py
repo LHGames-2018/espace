@@ -12,18 +12,9 @@ class StateMachine(object):
 
         return action
 
-class State(object):
+class BaseState(object):
 
     def action(self):
         pass
 
 
-class GoHomeState(State):
-
-    def action(self, game_state):
-        pass
-
-class GetResourcesState(State):
-
-    def action(self, game_state):
-        pass
