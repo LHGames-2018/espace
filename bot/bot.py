@@ -5,7 +5,7 @@ import sys
 
 class Bot:
     def __init__(self):
-        self.state_machine = StateMachine(initial_state=state.GetToClosestResource())
+        self.state_machine = StateMachine(initial_state=state.HuntPlayerState())
 
     def before_turn(self, playerInfo):
         """

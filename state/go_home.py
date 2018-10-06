@@ -11,7 +11,7 @@ class GoHomeState(BaseState):
 
         if poids == 0:
             return state.GatherResourcesState(), None
-
+            
         next_move = Point.from_tuple(next_move)
 
         tile_content = game_state['parsedGameMap'][(my_pos + next_move).to_tuple()]

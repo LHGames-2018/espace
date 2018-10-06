@@ -21,7 +21,7 @@ def heuristic(current, goal):
 def aStar(maze, start, goal, canWalkOnResources=False):
 
     if start == goal:
-        return (0, None)
+        return 0, None
 
     possibleMoves = [(0,1), (-1,0), (1,0), (0,-1)]
 
@@ -32,7 +32,7 @@ def aStar(maze, start, goal, canWalkOnResources=False):
 
     weightSymbols = {
         tile.TileContent.Empty : 1,
-        tile.TileContent.Wall : -1,
+        tile.TileContent.Wall : 2,
         tile.TileContent.House : 1,
         tile.TileContent.Lava : -1,
         tile.TileContent.Resource : -1,
@@ -79,6 +79,8 @@ def aStar(maze, start, goal, canWalkOnResources=False):
 
             cameFrom[newPoint] = currentNode.point
             gscores[newPoint] = newNode.weight
+
+    return -1, None
 
 
 def findPoint(character):

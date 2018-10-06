@@ -1,8 +1,8 @@
 from state.machine import BaseState
-import state
 from helper import *
+import state
 
-class GetToClosestResource(BaseState):
+class HuntPlayerState(BaseState):
 
     def action(self, game_state):
 
@@ -10,15 +10,19 @@ class GetToClosestResource(BaseState):
             return state.GoHomeState(), None
 
         my_pos = game_state_helper.get_my_position(game_state)
-        
+
         # find closest resource
-        poids, next_move = game_state_helper.get_closest_resource(game_state)
+        poids, next_move = game_state_helper.get_closest_enemy(game_state)
+
+        if poids == -1:
+            return state.GatherResourcesState(), None
 
         tile_content = game_state['parsedGameMap'][(my_pos + next_move).to_tuple()]
 
         action = create_move_action(tile_content, next_move)
+
         
         if poids == 1: # if we're on top of the resource
-            return state.GatherResourcesState(), None
+            return state.AttackPlayerState(), None
         else:
             return None, action
