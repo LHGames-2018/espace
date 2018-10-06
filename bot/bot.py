@@ -1,5 +1,5 @@
 from helper import *
-from state_machine import *
+from bot.state_machine import *
 
 class Bot:
     def __init__(self):
