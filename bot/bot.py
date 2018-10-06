@@ -1,9 +1,14 @@
 from helper import *
-from state_machine import *
+from state.machine import StateMachine
+<<<<<<< Updated upstream
+from state import *
+=======
+from state import GetResourcesState, GoHomeState
+>>>>>>> Stashed changes
 
 class Bot:
     def __init__(self):
-        self.state_machine = StateMachine(GetResourcesState())
+        self.state_machine = StateMachine(initial_state=GoRightState())
 
     def before_turn(self, playerInfo):
         """
@@ -19,7 +24,7 @@ class Bot:
             :param visiblePlayers:  The list of visible players.
         """
 
-        action = self.state_machine.run()
+        action = self.state_machine.run({})
 
         # Write your bot here. Use functions from aiHelper to instantiate your actions.
         return action

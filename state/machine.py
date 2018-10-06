@@ -1,6 +1,6 @@
+from random import choice
 
-
-class StateMachine(Object):
+class StateMachine(object):
     def __init__(self, initial_state):
         self.state = initial_state
 
@@ -12,18 +12,9 @@ class StateMachine(Object):
 
         return action
 
-class State(Object):
+class BaseState(object):
 
     def action(self):
         pass
 
 
-class GoHomeState(State):
-
-    def action(self):
-        pass
-
-class GetResourcesState(State):
-
-    def action(self):
-        pass
