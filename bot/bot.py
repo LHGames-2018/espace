@@ -1,10 +1,10 @@
 from helper import *
 from state.machine import StateMachine
-from state import GetResourcesState, GoHomeState
+from state import *
 
 class Bot:
     def __init__(self):
-        self.state_machine = StateMachine(GetResourcesState())
+        self.state_machine = StateMachine(initial_state=GoRightState())
 
     def before_turn(self, playerInfo):
         """
@@ -20,7 +20,7 @@ class Bot:
             :param visiblePlayers:  The list of visible players.
         """
 
-        action = self.state_machine.run()
+        action = self.state_machine.run({})
 
         # Write your bot here. Use functions from aiHelper to instantiate your actions.
         return action

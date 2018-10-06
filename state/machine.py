@@ -1,11 +1,11 @@
-from random import choice
+
 
 class StateMachine(object):
     def __init__(self, initial_state):
         self.state = initial_state
 
-    def run(self):
-        newState, action = self.state.action()
+    def run(self, game_state):
+        newState, action = self.state.action(game_state)
 
         if newState:
             self.state = newState
@@ -14,7 +14,5 @@ class StateMachine(object):
 
 class BaseState(object):
 
-    def action(self):
+    def action(self, game_state):
         pass
-
-
