@@ -1,6 +1,10 @@
 from helper import *
 from state.machine import StateMachine
+<<<<<<< Updated upstream
 from state import *
+=======
+from state import GetResourcesState, GoHomeState
+>>>>>>> Stashed changes
 
 class Bot:
     def __init__(self):
