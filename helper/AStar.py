@@ -20,6 +20,9 @@ def heuristic(current, goal):
 #weightSymbols is a dictionary of gscores ex: {'+':-1, ' ' : 1, } //-1 is an obstacle
 def aStar(maze, start, goal, canWalkOnResources=False):
 
+    start = start.to_tuple()
+    goal = goal.to_tuple()
+
     if start == goal:
         return 0, None
 
@@ -53,7 +56,9 @@ def aStar(maze, start, goal, canWalkOnResources=False):
             while cameFrom[point] != start:
                 point = cameFrom[point]
  
-            return (currentNode.gscore, tuple([x-y for x,y in zip(point, cameFrom[point])]))
+            delta = tuple([x-y for x,y in zip(point, cameFrom[point])])
+
+            return (currentNode.gscore, Point(delta))
             
 
         closedlist.append(currentNode.point)
