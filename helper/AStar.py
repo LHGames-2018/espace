@@ -19,6 +19,10 @@ def heuristic(current, goal):
 
 #weightSymbols is a dictionary of gscores ex: {'+':-1, ' ' : 1, } //-1 is an obstacle
 def aStar(maze, start, goal):
+
+    if start == goal:
+        return (0, None)
+
     possibleMoves = [(0,1), (-1,0), (1,0), (0,-1)]
 
     openlist = []
