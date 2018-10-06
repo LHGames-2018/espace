@@ -1,4 +1,5 @@
 import heapq
+from structs import Point
 
 class Node:
     def __init__(self, point, gscore, fscore):
@@ -33,10 +34,14 @@ def aStar(maze, start, goal, weightSymbols):
 
         if currentNode.point == goal:
             point = goal
+            points = []
             while cameFrom[point] != start:
+                points.append(point)
                 point = cameFrom[point]
 
-            return [x-y for x,y in zip(point, cameFrom[point])]
+            points.append(point)
+
+            return [Point(x[0], x[1]) for x in points[::-1]] 
 
 
         closedlist.append(currentNode.point)
@@ -72,7 +77,7 @@ def findPoint(character):
 
     return None
 
-"""
+
 if __name__ == '__main__':
 
     maze = [''.join(x.strip().split(',')) for x in open('maze')]
@@ -88,5 +93,6 @@ if __name__ == '__main__':
 
     move = aStar(newMaze, start, end, {'S': 1, 'E':1, '+':-1, ' ':1})
 
+    move = [str(x) for x in move]
+
     print (move)
-"""
