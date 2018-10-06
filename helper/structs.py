@@ -37,6 +37,9 @@ class Point(object):
             return self.x == other.x and self.y == other.y
         return NotImplemented
 
+    def __lt__(self, other):
+        return self
+
     # Distance between two Points
     @staticmethod
     def Distance(p1, p2):

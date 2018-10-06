@@ -2,7 +2,7 @@ from state.machine import BaseState
 from helper import *
 import state
 
-class GatherResourcesState(BaseState):
+class AttackPlayerState(BaseState):
 
     def action(self, game_state):
 
