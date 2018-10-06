@@ -1,4 +1,4 @@
-
+import sys
 
 class StateMachine(object):
     def __init__(self, initial_state):
@@ -9,6 +9,8 @@ class StateMachine(object):
 
         if newState:
             self.state = newState
+
+        print(self.state.__repr__(), file=sys.stderr)
 
         return action
 

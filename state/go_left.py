@@ -1,18 +1,21 @@
-from state import *
+import state
 from helper import *
 
-class GoLeftState(BaseState):
+class GoLeftState(state.BaseState):
     def __init__(self):
         self.__count = 0
 
     def action(self, game_state):
 
-        action = create_move_action(Point(0,1))
+        action = create_move_action(Point(-1,0))
+
+        self.__count += 1
 
         if self.__count == 5:
-            return GoRightState(), action
+            return state.GoRightState(), action
 
         else:
             return None, action
 
-        self.__count += 1
+    def __repr__(self):
+        return 'Im going left.'
