@@ -3,6 +3,7 @@ import sys
 
 class Bot:
     def __init__(self):
+        self.local = True
         pass
 
     def before_turn(self, playerInfo):
@@ -23,8 +24,34 @@ class Bot:
             #print('',file=sys.stderr)
 #        print(str(gameMap.tiles),  file=sys.stderr)
         # Write your bot here. Use functions from aiHelper to instantiate your actions.
-        self.visual(gameMap)
-        return create_move_action(Point(-1, 0))
+        if self.local:
+            self.visual(gameMap)
+        targets = self.findTargets(gameMap, self.PlayerInfo)
+        neighbors = [(1,0), (-1, 0), (0,1), (0,-1)]
+        target = (targets[0][0].Position.x, targets[0][0].Position.y)
+        dists = []
+#        current_dist = self.manhattanDistance(self.PlayerInfo, target)
+        dictMap = {}
+        for line in gameMap.tiles:
+            for tile in line:
+                dictMap[(tile.Position.x, tile.Position.y)] = tile.TileContent
+        current_pos = (self.PlayerInfo.Position.x, self.PlayerInfo.Position.y)
+        weightDict = {
+        TileContent.Empty : 1,
+        TileContent.Wall : -1,
+        TileContent.House : 1,
+        TileContent.Lava : -1,
+        TileContent.Resource : 1,
+        TileContent.Player : -1
+        }
+        print(dir(aStar), file=sys.stderr)
+        nextMove = Astar.aStar(dictMap, current_pos, target, weightDict)
+#        for neighbor in neighbors:
+#            dists.append()
+#        for resource in targets[0]:
+#            print(resource, self.manhattanDistance(resource, self.PlayerInfo), file=sys.stderr)
+#        resource1 = targets[0][0]
+        return create_move_action(Point(nextMove))
 
     def after_turn(self):
         """
@@ -33,6 +60,7 @@ class Bot:
         pass
 
     def visual(self, gameMap):
+        #prints map in cmdline on bot server
         toprint = []
         for line in gameMap.tiles:
             visualline = []
@@ -44,9 +72,29 @@ class Bot:
                 t = t.replace('TileContent.Lava', 'X')
                 t = t.replace('TileContent.Resource', '*')
                 t = t.replace('TileContent.Player', '1')
-                print("t:",t, file=sys.stderr)
+                #print("t:",t, file=sys.stderr)
                 visualline.append(t)
             toprint.append(visualline)
         toprint = [*zip(*toprint)]
         for vline in toprint:
             print(''.join(vline),file=sys.stderr)
+
+    def findTargets(self, mapmatrix, me):
+        #returns points of interest
+        resources = []
+        enemies = []
+        shops = []
+        for row in mapmatrix.tiles:
+            for tile in row:
+                if tile.TileContent==TileContent.Resource:
+                    resources.append(tile)
+                elif tile.TileContent==TileContent.Player and tile.Position != self.PlayerInfo.Position:
+                    enemies.append(tile)
+                elif tile.TileContent==TileContent.Shop:
+                    shops.append(tile)
+                else:
+                    continue
+        return [resources, enemies, shops]
+
+    def manhattanDistance(self, point_init, tile_dest):
+        return abs(tile_dest.Position.x - tile_init.Position.x) + abs(tile_dest.Position.y - tile_init.Position.y)
