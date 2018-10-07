@@ -18,7 +18,7 @@ def heuristic(current, goal):
     return sum(abs(x-y) for x,y in zip(goal, current))
 
 #weightSymbols is a dictionary of gscores ex: {'+':-1, ' ' : 1, } //-1 is an obstacle
-def aStar(maze, start, goal, canWalkOnResources=False, canWalkOnEnemies=False, canWalkOnHouses=True):
+def aStar(maze, start, goal, canWalkOnResources=False, canWalkOnEnemies=False): #, canWalkOnHouses=True):
 
     start = start.to_tuple()
     goal = goal.to_tuple()
