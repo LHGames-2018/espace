@@ -6,8 +6,8 @@ class HuntPlayerState(BaseState):
 
     def action(self, game_state):
 
-        if game_state_helper.get_current_hp_count(game_state) <= 5:
-            return state.GoHomeState(), None
+        #if game_state_helper.get_current_hp_count(game_state) <= 5:
+        #    return state.GoHomeState(), None
 
         my_pos = game_state_helper.get_my_position(game_state)
 
@@ -21,7 +21,7 @@ class HuntPlayerState(BaseState):
 
         action = create_move_action(tile_content, next_move)
 
-        
+
         if poids == 1: # if we're on top of the resource
             return state.AttackPlayerState(), None
         else:

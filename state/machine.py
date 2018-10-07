@@ -19,5 +19,3 @@ class BaseState(object):
 
     def action(self):
         pass
-
-

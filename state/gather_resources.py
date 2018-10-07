@@ -6,7 +6,8 @@ class GatherResourcesState(BaseState):
 
     def action(self, game_state):
 
-        if game_state_helper.inventory_is_full(game_state) or game_state_helper.get_current_hp_count(game_state) <= 5:
+        if game_state_helper.inventory_is_full(game_state):
+            #game_state_helper.get_current_hp_count(game_state) <= 5:
             return state.GoHomeState(), None
 
         neighbours = game_state_helper.get_neighbours(game_state)
